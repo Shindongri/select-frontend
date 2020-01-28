@@ -25,4 +25,3 @@ export const clearIcon = css`
   height: 20px;
   fill: pink;
 `;
-

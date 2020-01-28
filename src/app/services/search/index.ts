@@ -9,7 +9,7 @@ const searchState: SearchState = {
 };
 
 export class SearchReducer extends ImmerReducer<SearchState> {
-  public changeKeyword(keyword:string) {}
+  public changeKeyword(keyword: string) {}
 }
 
 export const searchReducer = createReducerFunction(SearchReducer, searchState);

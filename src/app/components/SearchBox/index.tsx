@@ -4,7 +4,11 @@ import { useSelector, useStore, useDispatch } from 'react-redux';
 import history from 'app/config/history';
 import { AppStatus } from 'app/services/app';
 import { getAppStatus } from 'app/services/app/selectors';
-import { getGnbSearchActiveType, getSolidBackgroundColorRGBString, selectGnbColorLevel } from 'app/services/commonUI/selectors';
+import {
+  getGnbSearchActiveType,
+  getSolidBackgroundColorRGBString,
+  selectGnbColorLevel,
+} from 'app/services/commonUI/selectors';
 import { getIsIosInApp, selectIsInApp } from 'app/services/environment/selectors';
 import { useLocation } from 'react-router-dom';
 import { GNBSearchActiveType } from 'app/services/commonUI';
@@ -43,12 +47,12 @@ const SearchBox: React.FunctionComponent = () => {
   };
 
   const handleBackButtonClick = () => {
-    if(isActiveTypeBlock) history.goBack();
+    if (isActiveTypeBlock) history.goBack();
     setIsActive(false);
-  }
+  };
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const {value: keyword} = e.target;
+    const { value: keyword } = e.target;
     setKeyword(keyword);
     dispatch(searchActions.changeKeyword(keyword));
   };
@@ -66,7 +70,11 @@ const SearchBox: React.FunctionComponent = () => {
   return (
     <div>
       <button type="button" onClick={handleActivateButtonClick}>
-        {isIosInApp ? <IOSSearchIcon css={styles.searchIcon}/> : <SearchIcon css={styles.searchIcon}/>}
+        {isIosInApp ? (
+          <IOSSearchIcon css={styles.searchIcon} />
+        ) : (
+          <SearchIcon css={styles.searchIcon} />
+        )}
         <span className="a11y">검색 모드 활성화</span>
       </button>
       <div css={styles.searchInputWrapper(isActive)}>
@@ -90,7 +98,7 @@ const SearchBox: React.FunctionComponent = () => {
         />
         {isClearButtonVisible && (
           <button type="button" onClick={handleKeywordClearButtonClick}>
-            <ClearIcon css={styles.clearIcon}/>
+            <ClearIcon css={styles.clearIcon} />
             <span className="a11y">검색어 지우기</span>
           </button>
         )}

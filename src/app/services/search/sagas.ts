@@ -7,7 +7,5 @@ export function changeKeyword(action: any) {
 }
 
 export default function* searchRootSaga() {
-  yield all([
-    takeEvery(searchActions.changeKeyword.type, changeKeyword),
-  ]);
+  yield all([takeEvery(searchActions.changeKeyword.type, changeKeyword)]);
 }
