@@ -729,6 +729,7 @@ export class Search extends React.Component<SearchProps, SearchState> {
           className="GNBSearchButton"
           onClick={() => {
             if (gnbSearchActiveType === GNBSearchActiveType.block) {
+              console.log('back!');
               history.goBack();
               this.toggleActivation(false);
               return;

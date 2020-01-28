@@ -1,7 +1,7 @@
 import { RidiSelectState } from 'app/store';
 import { createSelector } from 'reselect';
 
-import { GNBColorLevel, GNBTransparentType, RGB } from 'app/services/commonUI';
+import { GNBColorLevel, GNBTransparentType, RGB, GNBSearchActiveType } from 'app/services/commonUI';
 import { getIsIosInApp } from 'app/services/environment/selectors';
 
 export const selectGnbColor = (state: RidiSelectState): RGB => state.commonUI.gnbColor;
@@ -9,6 +9,8 @@ export const selectGnbColorLevel = (state: RidiSelectState): GNBColorLevel =>
   state.commonUI.gnbColorLevel;
 export const selectTransparentType = (state: RidiSelectState): GNBTransparentType =>
   state.commonUI.gnbTransparentType;
+export const getGnbSearchActiveType = (state: RidiSelectState): GNBSearchActiveType =>
+  state.commonUI.gnbSearchActiveType;
 
 export const getSolidBackgroundColorRGBString = createSelector(
   [selectGnbColor, getIsIosInApp],

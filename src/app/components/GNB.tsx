@@ -4,6 +4,7 @@ import { Link } from 'react-router-dom';
 
 import { Icon } from '@ridi/rsg';
 import { ConnectedSearch } from 'app/components/Search';
+import SearchBox from 'app/components/SearchBox';
 import { AppStatus } from 'app/services/app';
 import { GNBColorLevel } from 'app/services/commonUI';
 
@@ -215,7 +216,10 @@ export class GNB extends React.Component<Props> {
   private renderGNBSearchButton(isMobile: boolean) {
     const { isSimpleGNB, appStatus } = this.props;
     return isSimpleGNB || appStatus === AppStatus.Common ? null : (
-      <ConnectedSearch isMobile={isMobile} />
+      <>
+        <ConnectedSearch isMobile={isMobile} />
+        <SearchBox />
+      </>
     );
   }
 
