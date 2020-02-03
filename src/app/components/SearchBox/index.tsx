@@ -1,26 +1,33 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { useSelector, useStore, useDispatch } from 'react-redux';
+import { useLocation } from 'react-router-dom';
 
 import history from 'app/config/history';
 import { AppStatus } from 'app/services/app';
 import { getAppStatus } from 'app/services/app/selectors';
+import { GNBSearchActiveType } from 'app/services/commonUI';
 import {
   getGnbSearchActiveType,
   getSolidBackgroundColorRGBString,
   selectGnbColorLevel,
 } from 'app/services/commonUI/selectors';
 import { getIsIosInApp, selectIsInApp } from 'app/services/environment/selectors';
-import { useLocation } from 'react-router-dom';
-import { GNBSearchActiveType } from 'app/services/commonUI';
+import { searchActions } from 'app/services/search';
 import BackIcon from 'svgs/ArrowLeftLine.svg';
 import ClearIcon from 'svgs/Close.svg';
-import SearchIcon from 'svgs/Search.svg';
 import IOSSearchIcon from 'svgs/IOSSearch.svg';
+import SearchIcon from 'svgs/Search.svg';
 
+import InstantSearch from './InstantSearch';
+import SearchHistory from './SearchHistory';
 import * as styles from './styles';
-import { searchActions } from 'app/services/search';
 
-const SearchBox: React.FunctionComponent = () => {
+interface SearchProps {
+  isMobile: boolean;
+}
+
+const SearchBox: React.FunctionComponent<SearchProps> = (props: SearchProps) => {
+  const { isMobile } = props;
   const dispatch = useDispatch();
   const gnbColorLevel = useSelector(selectGnbColorLevel);
   const solidBackgroundColorRGBString = useSelector(getSolidBackgroundColorRGBString);
@@ -36,7 +43,7 @@ const SearchBox: React.FunctionComponent = () => {
 
   const isActiveTypeBlock = gnbSearchActiveType === GNBSearchActiveType.block;
   const isAppStatusBooks = appStatus === AppStatus.Books;
-  const isClearButtonVisible = keyword.length > 0;
+  const hasKeyword = keyword.length > 0;
 
   useEffect(() => {
     if (isActive && searchInputEl.current) searchInputEl.current.focus();
@@ -54,17 +61,21 @@ const SearchBox: React.FunctionComponent = () => {
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { value: keyword } = e.target;
     setKeyword(keyword);
-    dispatch(searchActions.changeKeyword(keyword));
+    dispatch(searchActions.instantSearch({ appStatus, keyword }));
   };
 
   const handleInputKeyUp = (e: React.KeyboardEvent<HTMLInputElement>) => {
     const { keyCode } = e;
-    // console.log(keyword);
-    // console.log(keyCode);
   };
 
   const handleKeywordClearButtonClick = () => {
     setKeyword('');
+  };
+
+  const handleDimmedClick = () => {
+    console.log('dimmed click');
+    // togglePageScrollable(false) 스크롤 정지 풀어주기
+    // this.setState({ isActive: false, isClearButtonVisible: false });
   };
 
   return (
@@ -96,13 +107,16 @@ const SearchBox: React.FunctionComponent = () => {
           onKeyUp={handleInputKeyUp}
           maxLength={150}
         />
-        {isClearButtonVisible && (
+        {hasKeyword && (
           <button type="button" onClick={handleKeywordClearButtonClick}>
             <ClearIcon css={styles.clearIcon} />
             <span className="a11y">검색어 지우기</span>
           </button>
         )}
       </div>
+      <InstantSearch />
+      <SearchHistory appStatus={appStatus} />
+      {isMobile && <div onClick={handleDimmedClick} />}
     </div>
   );
 };

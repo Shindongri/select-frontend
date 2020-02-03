@@ -218,7 +218,7 @@ export class GNB extends React.Component<Props> {
     return isSimpleGNB || appStatus === AppStatus.Common ? null : (
       <>
         <ConnectedSearch isMobile={isMobile} />
-        <SearchBox />
+        <SearchBox isMobile={isMobile} />
       </>
     );
   }
