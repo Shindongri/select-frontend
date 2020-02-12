@@ -7,10 +7,17 @@ interface SearchHistoryProps {
   appStatus: AppStatus;
 }
 
-interface History {
-  enabled: null | boolean;
+interface KeywordList {
   bookKeywordList: string[];
   articleKeywordList: string[];
+}
+
+interface History extends KeywordList {
+  enabled: boolean;
+}
+
+interface HistoryInitialState extends KeywordList {
+  enabled: null | boolean;
 }
 
 const keywordListInitialState = {
@@ -20,7 +27,7 @@ const keywordListInitialState = {
 
 const SearchHistory: React.FunctionComponent<SearchHistoryProps> = (props: SearchHistoryProps) => {
   const { appStatus } = props;
-  const [history, setHistory] = React.useState<History>({
+  const [history, setHistory] = React.useState<HistoryInitialState>({
     enabled: null,
     ...keywordListInitialState,
   });
@@ -40,7 +47,11 @@ const SearchHistory: React.FunctionComponent<SearchHistoryProps> = (props: Searc
 
   const updateHistory = (newHistory: History) => {
     setHistory(newHistory);
-    // update local storage
+    localStorageManager.save({
+      history: {
+        ...newHistory,
+      },
+    });
   };
 
   const handleDeleteButtonClick = (targetIdx: number) => {
@@ -51,6 +62,7 @@ const SearchHistory: React.FunctionComponent<SearchHistoryProps> = (props: Searc
       : [];
     const newHistory = {
       ...history,
+      enabled: history.enabled == null ? false : history.enabled,
       [appStatus === AppStatus.Books
         ? 'bookKeywordList'
         : 'articleKeywordList']: filteredKeywordList,
