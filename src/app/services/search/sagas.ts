@@ -6,7 +6,6 @@ import { AppStatus } from '../app';
 
 function* fetchInstantSearch(action: any) {
   const { appStatus, keyword } = action.payload;
-  if (keyword.length === 0) return;
   const where = appStatus === AppStatus.Books ? SearchWhere.BOOK : SearchWhere.ARTICLE;
   const searchResult = yield call(instantSearchRequest, where, keyword);
   console.log(keyword, searchResult);

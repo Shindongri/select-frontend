@@ -46,7 +46,9 @@ const SearchBox: React.FunctionComponent<SearchProps> = (props: SearchProps) => 
   const hasKeyword = keyword.length > 0;
 
   useEffect(() => {
-    if (isActive && searchInputEl.current) searchInputEl.current.focus();
+    if (isActive && searchInputEl.current) {
+      searchInputEl.current.focus();
+    }
   }, [isActive]);
 
   const handleActivateButtonClick = () => {
@@ -54,14 +56,18 @@ const SearchBox: React.FunctionComponent<SearchProps> = (props: SearchProps) => 
   };
 
   const handleBackButtonClick = () => {
-    if (isActiveTypeBlock) history.goBack();
+    if (isActiveTypeBlock) {
+      history.goBack();
+    }
     setIsActive(false);
   };
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const { value: keyword } = e.target;
-    setKeyword(keyword);
-    dispatch(searchActions.instantSearch({ appStatus, keyword }));
+    const { value } = e.target;
+    setKeyword(value);
+    if (value.length) {
+      dispatch(searchActions.instantSearch({ appStatus, keyword: value }));
+    }
   };
 
   const handleInputKeyUp = (e: React.KeyboardEvent<HTMLInputElement>) => {
