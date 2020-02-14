@@ -1,4 +1,5 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 
 import { AppStatus } from 'app/services/app';
 import { localStorageManager } from 'app/utils/search';
@@ -20,13 +21,12 @@ interface HistoryInitialState extends KeywordList {
   enabled: null | boolean;
 }
 
-const keywordListInitialState = {
-  bookKeywordList: [],
-  articleKeywordList: [],
-};
-
 const SearchHistory: React.FunctionComponent<SearchHistoryProps> = (props: SearchHistoryProps) => {
   const { appStatus } = props;
+  const keywordListInitialState = {
+    bookKeywordList: [],
+    articleKeywordList: [],
+  };
   const [history, setHistory] = React.useState<HistoryInitialState>({
     enabled: null,
     ...keywordListInitialState,
@@ -60,30 +60,27 @@ const SearchHistory: React.FunctionComponent<SearchHistoryProps> = (props: Searc
     const filteredKeywordList = keywordList
       ? keywordList.filter((_, idx) => idx !== targetIdx)
       : [];
-    const newHistory = {
+    updateHistory({
       ...history,
       enabled: history.enabled == null ? false : history.enabled,
       [appStatus === AppStatus.Books
         ? 'bookKeywordList'
         : 'articleKeywordList']: filteredKeywordList,
-    };
-    updateHistory(newHistory);
+    });
   };
 
   const handleClearButtonClick = () => {
-    const newHistory = {
+    updateHistory({
       enabled: true,
       ...keywordListInitialState,
-    };
-    updateHistory(newHistory);
+    });
   };
 
   const handleSavingToggleButtonClick = () => {
-    const newHistory = {
+    updateHistory({
       enabled: !history.enabled,
       ...keywordListInitialState,
-    };
-    updateHistory(newHistory);
+    });
   };
 
   const renderKeywordList = () => {
@@ -97,7 +94,7 @@ const SearchHistory: React.FunctionComponent<SearchHistoryProps> = (props: Searc
     }
     return keywordList.map((keyword, idx) => (
       <li key={`keywordList_${appStatus}_${idx}`}>
-        {keyword}
+        <Link to={`/search?q=${keyword}&type=${appStatus}`}>{keyword}</Link>
         <button
           type="button"
           onClick={() => {

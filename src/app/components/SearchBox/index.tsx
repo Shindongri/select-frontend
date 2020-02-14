@@ -120,8 +120,8 @@ const SearchBox: React.FunctionComponent<SearchProps> = (props: SearchProps) => 
           </button>
         )}
       </div>
-      <InstantSearch />
-      <SearchHistory appStatus={appStatus} />
+      {isActive && !hasKeyword && <SearchHistory appStatus={appStatus} />}
+      {isActive && hasKeyword && <InstantSearch />}
       {isMobile && <div onClick={handleDimmedClick} />}
     </div>
   );
