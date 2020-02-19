@@ -11,14 +11,7 @@ export const setInitializeInAppEvent = () => {
       window.postRobot = PostRobot;
       window.postMessage({ postRobot: true }, '*');
       store.dispatch(EnvironmentActions.setAppEnvironment({ platform, version }));
-      if (/iphone|ipad|ipod|ios/i.test(platform)) {
-        document
-          .querySelector('meta[name=viewport]')!
-          .setAttribute(
-            'content',
-            'width=device-width, initial-scale=1, minimum-scale=1, maximum-scale=1, user-scalable=0, viewport-fit=cover, ',
-          );
-      }
+
       // iOS inApp 에서 외부링크 블랙리스트처리 할 목록 전달
       window.postRobot.send(window, 'inApp', {
         name: 'setBlacklistOfOutlink',
