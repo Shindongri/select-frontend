@@ -47,7 +47,7 @@ class App extends React.Component {
             {
               name: 'viewport',
               content: `width=device-width, initial-scale=1, minimum-scale=1, viewport-fit=cover${
-                getIsIosInApp(store.getState()) ? 'maximum-scale=1, user-scalable=no' : ''
+                getIsIosInApp(store.getState()) ? ', maximum-scale=1, user-scalable=no' : ''
               }`,
             },
           ]}
