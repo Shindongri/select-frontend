@@ -15,7 +15,7 @@ import { fetchUserInfo } from 'app/services/user/helper';
 import { ConnectedEnvBadge } from 'app/components/EnvBadge';
 import { initializeScrollEnd } from 'app/utils/onWindowScrollEnd';
 import { setInitializeInAppEvent } from 'app/utils/inAppMessageEvents';
-import { getIsIosInApp } from './services/environment/selectors';
+import { selectIsInApp } from './services/environment/selectors';
 
 // Show browser input focused outline when tab key is pressed
 setTabKeyFocus();
@@ -47,7 +47,7 @@ class App extends React.Component {
             {
               name: 'viewport',
               content: `width=device-width, initial-scale=1, minimum-scale=1, viewport-fit=cover${
-                getIsIosInApp(store.getState()) ? ', maximum-scale=1, user-scalable=no' : ''
+                selectIsInApp(store.getState()) ? ', maximum-scale=1, user-scalable=no' : ''
               }`,
             },
           ]}
