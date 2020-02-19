@@ -184,11 +184,7 @@ workflows:
     jobs:
       - build:
           name: build-stage
-          filters:
-            branches:
-              only:
-                - master
-                - feature/set-meta-viewport-when-iphone-inapp
+          filters: *master_only
       - deploy:
           name: deploy-stage
           requires:
