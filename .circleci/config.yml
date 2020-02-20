@@ -83,6 +83,7 @@ jobs:
                   PAY_API: https://pay-api.dev.ridi.io
                   ACCOUNT_API: https://account.dev.ridi.io
                   SEARCH_API: https://search-api.staging.ridi.io
+                  BESTSELLER_API: https://bestseller-api.staging.ridi.io
                   OAUTH2_CLIENT_ID: $DEV_OAUTH2_CLIENT_ID
       - unless:
           condition: << parameters.dev >>
