@@ -198,3 +198,10 @@ export const requestPayInfo = (): Promise<AxiosResponse<PayMeResponse>> =>
     method: 'GET',
     withCredentials: true,
   });
+
+export const requestUserGroup = (): Promise<AxiosResponse> =>
+  axios({
+    url: `${env.BESTSELLER_API}/select/user-group`,
+    method: 'GET',
+    withCredentials: true,
+  });

@@ -198,6 +198,7 @@ export interface UserState {
   subscription?: SubscriptionState | null;
   mySelectHistory: MySelectHistroyState;
   purchaseHistory: PurchaseHistory;
+  userGroup?: number;
 }
 
 export const INITIAL_STATE: UserState = {
