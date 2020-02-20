@@ -13,7 +13,7 @@ export default {
   ACCOUNT_API: getEnv('ACCOUNT_API', process.env.ACCOUNT_API) || 'https://account.ridibooks.com',
   SEARCH_API: getEnv('SEARCH_API', process.env.SEARCH_API) || 'https://search-api.ridibooks.com',
   BESTSELLER_API:
-    getEnv('BESTSELLER_API', process.env.BESTSELLER_API) || 'bestseller-api.ridibooks.com',
+    getEnv('BESTSELLER_API', process.env.BESTSELLER_API) || 'https://bestseller-api.ridibooks.com',
   OAUTH2_CLIENT_ID: process.env.OAUTH2_CLIENT_ID || '',
   FREE_PROMOTION_MONTHS: Number(process.env.FREE_PROMOTION_MONTHS) || 1,
 
