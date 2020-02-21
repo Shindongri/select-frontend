@@ -4,8 +4,7 @@ import { connect } from 'react-redux';
 
 import { ConnectedHomeSection } from 'app/components/Home/HomeSection';
 import { HomeSectionPlaceholder } from 'app/placeholder/HomeSectionPlaceholder';
-import { CollectionsState } from 'app/services/collection';
-import { CollectionType } from 'app/services/home';
+import { CollectionsState, CollectionType } from 'app/services/collection';
 import { groupCollections } from 'app/services/home/uitls';
 import { RidiSelectState } from 'app/store';
 

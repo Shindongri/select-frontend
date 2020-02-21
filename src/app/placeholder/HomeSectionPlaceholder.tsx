@@ -5,7 +5,7 @@ import {
   InlineHorizontalBookListSkeleton,
   SpotlightBookListSkeleton,
 } from 'app/placeholder/BookListPlaceholder';
-import { CollectionType } from 'app/services/home';
+import { CollectionType } from 'app/services/collection';
 
 interface HomeSectionPlaceholderProps {
   type?: CollectionType;

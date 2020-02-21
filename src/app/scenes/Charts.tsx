@@ -24,10 +24,14 @@ interface CollectionStateProps {
   collection: ChartCollectionState;
   books: BookState;
   page: number;
+  userGroup?: number;
 }
 
 interface CollectionDispatchProps {
-  dispatchLoadNewReleases: (page: number) => ReturnType<typeof Actions.loadCollectionRequest>;
+  dispatchLoadCharts: (
+    page: number,
+    userGroup?: number,
+  ) => ReturnType<typeof Actions.loadCollectionRequest>;
 }
 interface State {
   isInitialized: boolean;
@@ -52,9 +56,9 @@ export class Charts extends React.Component<Props> {
 
   public componentDidMount() {
     this.initialDispatchTimeout = window.setTimeout(() => {
-      const { dispatchLoadNewReleases, page } = this.props;
+      const { dispatchLoadCharts, page, userGroup } = this.props;
       if (!this.isFetched(page)) {
-        dispatchLoadNewReleases(page);
+        dispatchLoadCharts(page, userGroup);
       }
 
       this.initialDispatchTimeout = null;
@@ -64,10 +68,10 @@ export class Charts extends React.Component<Props> {
 
   public shouldComponentUpdate(nextProps: Props) {
     if (nextProps.page !== this.props.page) {
-      const { dispatchLoadNewReleases, page } = nextProps;
+      const { dispatchLoadCharts, page, userGroup } = nextProps;
 
       if (!this.isFetched(page)) {
-        dispatchLoadNewReleases(page);
+        dispatchLoadCharts(page, userGroup);
       }
     }
 
@@ -131,10 +135,11 @@ const mapStateToProps = (rootState: RidiSelectState): CollectionStateProps => ({
   collection: rootState.collectionsById.popular,
   books: rootState.booksById,
   page: getPageQuery(rootState),
+  userGroup: rootState.user.userGroup,
 });
 const mapDispatchToProps = (dispatch: Dispatch) => ({
-  dispatchLoadNewReleases: (page: number) =>
-    dispatch(Actions.loadCollectionRequest({ collectionId: 'popular', page })),
+  dispatchLoadCharts: (page: number, userGroup?: number) =>
+    dispatch(Actions.loadPopularBooksRequest({ userGroup, page })),
 });
 export const ConnectedCharts = withRouter(connect(mapStateToProps, mapDispatchToProps)(Charts));
 

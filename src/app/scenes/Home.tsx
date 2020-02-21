@@ -15,6 +15,7 @@ import { sendPostRobotInitialRendered } from 'app/utils/inAppMessageEvents';
 
 interface HomeStateProps {
   fetchedAt: number | null;
+  userGroup?: number;
 }
 interface State {
   isInitialized: boolean;
@@ -32,11 +33,18 @@ export class Home extends React.PureComponent<
 
   public componentDidMount() {
     this.initialDispatchTimeout = window.setTimeout(() => {
-      const { fetchedAt, dispatchLoadHomeRequest, dispatchLoadCollectionRequest } = this.props;
+      const {
+        userGroup,
+        fetchedAt,
+        dispatchLoadHomeRequest,
+        dispatchLoadCollectionRequest,
+        dispatchLoadPopularBooksRequest,
+      } = this.props;
       sendPostRobotInitialRendered();
       if (!fetchedAt || Math.abs(differenceInHours(fetchedAt, Date.now())) >= 3) {
         dispatchLoadHomeRequest();
         dispatchLoadCollectionRequest('spotlight');
+        dispatchLoadPopularBooksRequest(userGroup);
       }
       this.initialDispatchTimeout = null;
       this.setState({ isInitialized: true });
@@ -75,12 +83,15 @@ export class Home extends React.PureComponent<
 
 const mapStateToProps = (state: RidiSelectState): HomeStateProps => ({
   fetchedAt: state.home.fetchedAt,
+  userGroup: state.user.userGroup,
 });
 
 const mapDispatchToProps = (dispatch: any) => ({
   dispatchLoadHomeRequest: () => dispatch(Actions.loadHomeRequest()),
   dispatchLoadCollectionRequest: (collectionId: CollectionId) =>
     dispatch(CollectionActions.loadCollectionRequest({ collectionId, page: 1 })),
+  dispatchLoadPopularBooksRequest: (userGroup?: number) =>
+    dispatch(CollectionActions.loadPopularBooksRequest({ userGroup })),
 });
 
 export const ConnectedHome = connect(mapStateToProps, mapDispatchToProps)(Home);

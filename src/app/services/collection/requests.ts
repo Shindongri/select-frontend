@@ -6,8 +6,7 @@ import { camelize } from '@ridi/object-case-converter';
 import request from 'app/config/axios';
 import env from 'app/config/env';
 import { Book } from 'app/services/book';
-import { CollectionId } from 'app/services/collection';
-import { CollectionType } from 'app/services/home';
+import { CollectionType, CollectionId, COUNT_PER_PAGE } from 'app/services/collection';
 
 export interface CollectionResponse {
   collectionId: number;
@@ -15,6 +14,11 @@ export interface CollectionResponse {
   type: CollectionType;
   title: string;
   books: Book[];
+}
+
+export interface PopularBooksResponse {
+  books: Book[];
+  count: number;
 }
 
 export const requestCollection = (
@@ -43,5 +47,26 @@ export const requestCollection = (
     params,
   }).then(
     response => camelize<AxiosResponse<CollectionResponse>>(response, { recursive: true }).data,
+  );
+};
+
+export const requestPopularBooks = (
+  userGroup?: number,
+  page?: number,
+  countPerPage?: number,
+): Promise<PopularBooksResponse> => {
+  const paramsArray = [];
+  paramsArray.push(userGroup ? `user_group=${userGroup}` : '');
+  paramsArray.push(page ? `offset=${page - 1}` : '');
+  paramsArray.push(countPerPage ? `limit=${countPerPage}` : '');
+
+  return request({
+    url: `${env.BESTSELLER_API}/select/popular/books${
+      paramsArray.length > 0 ? `?${paramsArray.join('&')}` : ''
+    }`,
+    method: 'GET',
+    withCredentials: true,
+  }).then(
+    response => camelize<AxiosResponse<PopularBooksResponse>>(response, { recursive: true }).data,
   );
 };

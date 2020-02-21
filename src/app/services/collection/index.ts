@@ -2,9 +2,17 @@ import { createAction, createReducer } from 'redux-act';
 
 import { FetchErrorFlag, FetchStatusFlag } from 'app/constants';
 import { CollectionResponse } from 'app/services/collection/requests';
-import { CollectionType } from 'app/services/home';
 import { BookId, Paginated } from 'app/types';
 import { AxiosError } from 'axios';
+import { Book } from 'app/services/book';
+
+export enum CollectionType {
+  'SELECTION' = 'SELECTION',
+  'CHART' = 'CHART',
+  'SPOTLIGHT' = 'SPOTLIGHT',
+}
+
+export const COUNT_PER_PAGE = 24;
 
 export type ReservedCollectionIds = 'popular' | 'recent' | 'spotlight';
 export type CollectionId = number | ReservedCollectionIds;
@@ -67,6 +75,15 @@ export const Actions = {
     page: number;
     error: AxiosError;
   }>('loadCollectionSuccess'),
+  loadPopularBooksRequest: createAction<{
+    userGroup?: number;
+    page?: number;
+  }>('loadPopularBooksRequest'),
+  afterLoadPopularBooks: createAction<{
+    books?: Book[];
+    page?: number;
+    count?: number;
+  }>('afterLoadPopularBooks'),
 };
 
 export const INITIAL_STATE: CollectionsState = {
@@ -186,6 +203,44 @@ collectionReducer.on(
           isFetched: false,
         },
       },
+    },
+  }),
+);
+
+collectionReducer.on(Actions.loadPopularBooksRequest, (state = INITIAL_STATE, { page = 1 }) => ({
+  ...state,
+  poupular: {
+    ...state.popular,
+    id: 'popular',
+    itemListByPage: {
+      ...(state.popular && state.popular.itemListByPage),
+      [page]: {
+        fetchStatus: FetchStatusFlag.FETCHING,
+        itemList: [],
+        isFetched: false,
+      },
+    },
+  },
+}));
+
+collectionReducer.on(
+  Actions.afterLoadPopularBooks,
+  (state = INITIAL_STATE, { page = 1, books, count = 0 }) => ({
+    ...state,
+    popular: {
+      ...state.popular,
+      itemListByPage: {
+        ...state.popular.itemListByPage,
+        [page]: {
+          fetchStatus: books ? FetchStatusFlag.IDLE : FetchStatusFlag.FETCH_ERROR,
+          itemList: books ? books.map(book => book.id) : [],
+          isFetched: false,
+        },
+      },
+      title: '인기 도서',
+      id: 'popular',
+      itemCount: count,
+      type: CollectionType.CHART,
     },
   }),
 );

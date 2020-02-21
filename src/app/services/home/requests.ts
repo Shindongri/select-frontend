@@ -6,6 +6,8 @@ import { CollectionResponse } from 'app/services/collection/requests';
 import { BigBanner } from 'app/services/home';
 
 import { camelize } from '@ridi/object-case-converter';
+import env from 'app/config/env';
+import { Book } from '../book';
 
 export interface HomeResponse {
   bigBanners: BigBanner[];

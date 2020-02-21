@@ -9,8 +9,11 @@ import { MAX_WIDTH, FetchStatusFlag } from 'app/constants';
 
 import { HomeSectionPlaceholder } from 'app/placeholder/HomeSectionPlaceholder';
 import { Book, BookState } from 'app/services/book';
-import { DefaultCollectionState, SpotlightCollectionState } from 'app/services/collection';
-import { CollectionType } from 'app/services/home';
+import {
+  DefaultCollectionState,
+  SpotlightCollectionState,
+  CollectionType,
+} from 'app/services/collection';
 import { RidiSelectState } from 'app/store';
 import { collectionToPath } from 'app/utils/toPath';
 import { ConnectedHomeChartBooksSection } from './HomeChartBooksSection';

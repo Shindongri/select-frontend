@@ -1,4 +1,4 @@
-import { CollectionType } from 'app/services/home';
+import { CollectionType } from 'app/services/collection';
 import { AuthorKeys, Book } from 'app/services/book';
 import { DefaultCollectionState } from 'app/services/collection';
 import { groupCollections, groupChartBooks } from 'app/services/home/uitls';

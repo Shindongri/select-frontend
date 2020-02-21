@@ -16,12 +16,6 @@ export const Actions = {
   }>('updateBannerIndex'),
 };
 
-export enum CollectionType {
-  'SELECTION' = 'SELECTION',
-  'CHART' = 'CHART',
-  'SPOTLIGHT' = 'SPOTLIGHT',
-}
-
 export interface BigBanner {
   id: number;
   imageUrl: string;
