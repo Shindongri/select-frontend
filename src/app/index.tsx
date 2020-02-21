@@ -31,6 +31,7 @@ class App extends React.Component {
     fetchUserInfo()
       .then(user => {
         store.dispatch(Actions.initializeUser({ userDTO: user }));
+        store.dispatch(Actions.loadUserGroupRequest());
       })
       .finally(() => {
         store.dispatch(Actions.fetchUserInfo({ isFetching: false }));

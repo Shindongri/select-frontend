@@ -1,6 +1,6 @@
 import request from 'app/config/axios';
 import env from 'app/config/env';
-import { requestAccountsMe, requestUserGroup } from 'app/services/user/requests';
+import { requestAccountsMe } from 'app/services/user/requests';
 import { DateDTO } from 'app/types';
 import axios, { AxiosError } from 'axios';
 
@@ -70,7 +70,6 @@ export const fetchUserInfo = async (): Promise<UserDTO> => {
     ? {
         ...ticketInfo,
         ...(await fetchAccountInfo()),
-        ...(await requestUserGroup()),
       }
     : {
         ...ticketInfo,

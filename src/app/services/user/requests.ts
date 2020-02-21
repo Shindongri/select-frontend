@@ -16,6 +16,10 @@ export enum cashReceiptIssueResponseCode {
   cashReceiptCancellationFailed = 'CASH_RECEIPT_CANCELLATION_FAILED',
 }
 
+export interface UserGroupResponse {
+  userGroup: number;
+}
+
 export interface Ticket {
   id: number;
   purchaseDate: DateDTO;
@@ -38,10 +42,6 @@ export interface Ticket {
   isCashReceiptIssuable?: boolean;
   isOptoutCancellableWithPaymentMethodChange: boolean;
 }
-
-// export interface SubscriptionResponse extends SubscriptionState {
-//   subscription: SubscriptionState;
-// }
 
 export type SubscriptionResponse = SubscriptionState;
 
@@ -199,9 +199,11 @@ export const requestPayInfo = (): Promise<AxiosResponse<PayMeResponse>> =>
     withCredentials: true,
   });
 
-export const requestUserGroup = (): Promise<AxiosResponse> =>
+export const requestUserGroup = (): Promise<AxiosResponse<UserGroupResponse>> =>
   axios({
     url: `${env.BESTSELLER_API}/select/user-group`,
     method: 'GET',
     withCredentials: true,
-  });
+  }).then(response =>
+    camelize<AxiosResponse<UserGroupResponse>>(response.data, { recursive: true }),
+  );

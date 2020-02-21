@@ -21,7 +21,10 @@ export const Actions = {
   initializeUser: createAction<{
     userDTO: UserDTO;
   }>('initializeUser'),
-
+  loadUserGroupRequest: createAction('loadUserGroupRequest'),
+  afterLoadUserGroupRequest: createAction<{
+    userGroup?: number;
+  }>('afterLoadUserGroupRequest'),
   loadSubscriptionRequest: createAction('loadSubscriptionRequest'),
 
   loadSubscriptionSuccess: createAction<{
@@ -228,6 +231,11 @@ export const INITIAL_STATE: UserState = {
 export const userReducer = createReducer<UserState>({}, INITIAL_STATE);
 
 userReducer.on(Actions.fetchUserInfo, (state = INITIAL_STATE, payload) => ({
+  ...state,
+  ...payload,
+}));
+
+userReducer.on(Actions.afterLoadUserGroupRequest, (state = INITIAL_STATE, payload) => ({
   ...state,
   ...payload,
 }));
